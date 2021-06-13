@@ -7,7 +7,7 @@ const request = async function(url) {
     const page = await browser.newPage();
     await page.goto(url);
 
-    const pageContent = await page.evaluate(parser.parsePageContent, {target: url , targets: constants.targets});
+    const pageContent = await page.evaluate(parser.parsePageContent, {target: url , targets: constants.targets, types: constants.types});
 
     await browser.close();
 

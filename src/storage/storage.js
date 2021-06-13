@@ -1,43 +1,6 @@
 const poolDB = require('./connection');
 
-// var mysql      = require('mysql');
-// var connection = mysql.createConnection({
-//   host     : '192.168.239.251',
-//   user     : 'admin',
-//   password : 'admin',
-//   database : 'contentmedia'
-//   // socketPath: '/var/lib/mysql/mysql.sock'
-// });
-
-// connection.connect(function(err) {
-//     if (err) {
-//       console.error('error connecting: ' + err.stack);
-//       return;
-//     }
-
-//     console.log('connected as id ' + connection.threadId);
-// });
-
-// connection.query('SELECT * FROM Produto', function(err, results, fields) {
-//   if (err) {
-//       throw err;
-//   }
-
-//   console.log('fields: ', fields[0])
-//   console.log('rows: ', results[0]);
-// });
-
-// connection.end();
-
-const findContent = function () {
-
-}
-
-const findPromotion = function () {
-
-}
-
-const insertContent = function (contentsInsert) {
+const findContent = function (type, callback) {
   poolDB.getConnection(function (error, connection) {
     if (error) {
       console.log(error);
@@ -45,22 +8,22 @@ const insertContent = function (contentsInsert) {
     }
 
     try {
-      var values = [];
-
-      contentsInsert.forEach(elem => {
-        values.push([elem.title, elem.link, elem.image]);
-      });
-
-      console.log(values);
-
-      var query = ' INSERT INTO Content (title, link, link_image) \n';
-      query += ' SELECT * FROM (SELECT ? AS UNIQUE_TITTLE, ?, ?) AS tmp \n';
-      query += ' WHERE NOT EXISTS (SELECT 1 FROM Content c WHERE c.title = tmp.UNIQUE_TITTLE) ';
-
-      connection.query(query, [values], function (err, results, fields) {
+      connection.query('SELECT * FROM Content c WHERE c.type = ? ORDER BY c.dhinsert DESC LIMIT 12', [type], function (err, results, fields) {
         if (err) throw err;
 
-        console.log(results);
+        var contents = []
+
+        if (results && results.length > 0) {
+          results.forEach(content => {
+            contents.push({
+              title: content.title,
+              link: content.link,
+              link_image: content.link_image
+            });
+          });
+        }
+
+        callback(contents);
       });
 
     } catch (error) {
@@ -69,15 +32,43 @@ const insertContent = function (contentsInsert) {
       connection.release();
     }
   });
-
-  //poolDB.release();
 }
 
+const findPromotion = function () {
 
-// const  manipulaHtml = function(pageContent) {
-//     return pageContent.subtitle;
-// };
+}
+
+const insertContent = function (contentsInsert) {
+  console.log('contentsInsert: ' + contentsInsert)
+  if (contentsInsert) {
+    poolDB.getConnection(function (error, connection) {
+      if (error) {
+        console.log(error);
+        return;
+      }
+  
+      try {
+        contentsInsert.forEach(elem => {
+          var query = ' INSERT INTO Content (title, link, link_image, type, name) \n';
+          query += ' SELECT * FROM (SELECT ? AS UNIQUE_TITTLE, ?, ?, ?, ?) AS tmp \n';
+          query += ' WHERE NOT EXISTS (SELECT 1 FROM Content c WHERE c.title = tmp.UNIQUE_TITTLE) LIMIT 1';
+  
+          console.log(elem);
+  
+          connection.query(query, [elem.title, elem.link, elem.image, elem.type, elem.name], function (err, results, fields) {
+            if (err) throw err;
+          });
+        });
+      } catch (error) {
+        console.log(error);
+      } finally {
+        connection.release();
+      }
+    });
+  }
+}
 
 module.exports = {
-  insertContent: insertContent
+  insertContent: insertContent,
+  findContent: findContent
 };

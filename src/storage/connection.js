@@ -1,13 +1,16 @@
 var mysql = require('mysql');
+require('dotenv/config');
 
 const pool = mysql.createPool({
     connectionLimit : 20,
-    host: '192.168.239.251',
+    host: process.env.DB_URL,
     user: 'admin',
     password: 'admin',
     database: 'contentmedia'
     // here you can set connection limits and so on
 });
+
+console.log(process.env.DB_URL + ' connection');
 
 /// COLOCAR EM OUTRO FONTE
 // const connection = require('../util/connection');

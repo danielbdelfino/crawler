@@ -4,8 +4,13 @@ const express = require('express');
 // const parser = require('./util/parser')
 // const constants = require('./util/constants');
 const jobs = require('./schedule/jobs');
+const { types } = require('./util/constants');
+const storage = require('./storage/storage');
+const cors = require('cors');
 
 const server = express();
+
+server.use(cors({origin:true,credentials: true}));
 
 server.get('/', async (request, response) => {
     // const browser = await puppeteer.launch();
@@ -78,6 +83,21 @@ server.get('/', async (request, response) => {
     });
 });
 
+server.get('/games', async (request, response) => {
+    storage.findContent(types.games, function (results) {
+        console.log(results);
+        response.send({
+            results
+            //request: "Pagina MEUPS"
+            //image: pageContent.image,
+            //title: pageContent.title,
+            //link: pageContent.link
+            // subtitle: pageContent.subtitle
+        });
+    });
+
+});
+
 // server.get('/testedois', (request, response) => {
 //     response.send('Olá mundo 2!!');
 // });
@@ -88,6 +108,8 @@ server.listen(3000, () => {
         Acesse em http://localhost:3000
     `)
 });
+
+
 
 // (async () => {
 //   const browser = await puppeteer.launch();

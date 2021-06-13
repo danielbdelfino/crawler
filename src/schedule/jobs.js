@@ -1,19 +1,26 @@
 const schedule = require('node-schedule');
 const requestproc = require('../requests/requestproc');
-const { targets } = require('../util/constants');
+const { targets, types } = require('../util/constants');
 const storage = require('../storage/storage');
 
 const rule = new schedule.RecurrenceRule();
-rule.second = 5;
+//rule.second = 30;
+rule.minute = 30;
 
 schedule.scheduleJob(rule, function () {
-  console.log('The answer to life, the universe, and everything!');
+  console.log('*** EXECUTING SCHEDULE ***');
+  // storage.findContent(types.games, function(results) {
+  //   console.log(results);
+  // });
 
-  const pageContent = requestproc.request(targets.meups, targets.meups).then(function(response){
-    console.log(response);
+  Object.keys(targets).forEach(function(key) {
+    console.log('Key : ' + key + ', Value : ' + targets[key])
+    const pageContent = requestproc.request(targets[key]).then(function(response){
+      //console.log(response);
+  
+      storage.insertContent(response);
+    });
+  })
 
-    storage.insertContent(response);
-  });
-
-  console.log(pageContent);
+  //console.log(pageContent);
 });
