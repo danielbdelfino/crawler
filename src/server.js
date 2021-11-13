@@ -11,6 +11,22 @@ const cors = require('cors');
 const server = express();
 
 server.use(cors({origin:true,credentials: true}));
+//server.use(cors());
+
+// const allowedOrigins = ['localhost',
+//     'www.example2.com'];
+// app.use(cors({
+//     origin: function (origin, callback) {
+//         console.log(origin);
+//         if (!origin) return callback(null, true);
+//         if (allowedOrigins.indexOf(origin) === -1) {
+//             const msg = 'The CORS policy for this site does not allow access from the specified Origin.';
+//             return callback(new Error(msg), false);
+//         }
+//         return callback(null, true);
+//     }
+
+// }));
 
 server.get('/', async (request, response) => {
     // const browser = await puppeteer.launch();
@@ -84,7 +100,10 @@ server.get('/', async (request, response) => {
 });
 
 server.get('/games', async (request, response) => {
-    storage.findContent(types.games, function (results) {
+    var params = request.query;
+    var nextPage = params == undefined ? -1 : params.nextPage;
+
+    storage.findContent(types.games, nextPage, function (results) {
         console.log(results);
         response.send({
             results
@@ -98,10 +117,22 @@ server.get('/games', async (request, response) => {
 
 });
 
+server.get('/pagedetail', async (request, response) => {
+    var params = request.query;
+    storage.findPageDetail(params.id, params.page, function (results) {
+        console.log(results);
+        response.send({
+            results
+        });
+    });
+
+});
+
 // server.get('/testedois', (request, response) => {
 //     response.send('Olá mundo 2!!');
 // });
 
+//server.listen(3000, '192.168.0.109', () => {
 server.listen(3000, () => {
     console.log(`
         Servidor subiu!

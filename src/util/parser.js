@@ -1,7 +1,4 @@
-//const { types } = require('./constants');
-// const  parseMeuPS = function(pageContent) {
-//     return pageContent.subtitle;
-// };
+//não utilizar 'require' nesse modulo, pois ele é usado no puppeter e esse deve ser passando via params
 
 const parsePageContent = function (params) {
     const { target, targets, types } = params;
@@ -13,13 +10,16 @@ const parsePageContent = function (params) {
             var content = [];
 
             for (var index = 0; index < 3; index++) {
+                var title = mainContent.querySelectorAll('.title')[index].innerText;
+
                 content.push(
                     {
                         link: mainContent.querySelectorAll('.title')[index].children[0].getAttribute('href'),
-                        title: mainContent.querySelectorAll('.title')[index].innerText,
+                        title: title,
                         image: mainContent.querySelectorAll('.image')[index].children[0].getAttribute('data-src'),
                         type: types.games,
-                        name: target
+                        name: target,
+                        selfPath: title
                     }
                 )
             }
@@ -39,13 +39,16 @@ const parsePageContent = function (params) {
             var content = [];
 
             for (var index = 0; index < 3; index++) {
+                var title = mainContent.querySelectorAll('.m')[index].children[1].innerText;
+
                 content.push(
                     {
                         link: mainContent.querySelectorAll('.t')[index].children[0].getAttribute('href'),
-                        title: mainContent.querySelectorAll('.m')[index].children[1].innerText,
+                        title: title,
                         image: mainContent.querySelectorAll('.t')[index].children[0].children[0].getAttribute('src'),
                         type: types.games,
-                        name: target
+                        name: target,
+                        selfPath: title
                     }
                 )
             }
