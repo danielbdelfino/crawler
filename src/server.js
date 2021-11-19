@@ -11,7 +11,7 @@ const cors = require('cors');
 const server = express();
 
 //server.use(cors({origin:true,credentials: true}));
-// server.use(cors());
+server.use(cors());
 
 const headersResponse = {
     'Access-Control-Allow-Origin': '*',
@@ -61,7 +61,8 @@ var corsOptionsDelegate = function (req, callback) {
     callback(null, corsOptions) // callback expects two parameters: error and options
 };
 
-server.get('/', cors(corsOptionsDelegate), async (request, response) => {
+// server.get('/', cors(corsOptionsDelegate), async (request, response) => {
+server.get('/', async (request, response) => {
     // const browser = await puppeteer.launch();
     // const page = await browser.newPage();
     //await page.goto('https://www.alura.com.br/formacao-front-end');
@@ -132,7 +133,8 @@ server.get('/', cors(corsOptionsDelegate), async (request, response) => {
     });
 });
 
-server.get('/games', cors(corsOptionsDelegate), async (request, response) => {
+//server.get('/games', cors(corsOptionsDelegate), async (request, response) => {
+server.get('/games', async (request, response) => {
     var params = request.query;
     var nextPage = params == undefined ? -1 : params.nextPage;
 
@@ -151,7 +153,8 @@ server.get('/games', cors(corsOptionsDelegate), async (request, response) => {
 
 });
 
-server.get('/news', cors(corsOptionsDelegate), async (request, response) => {
+// server.get('/news', cors(corsOptionsDelegate), async (request, response) => {
+server.get('/news', async (request, response) => {
     var params = request.query;
     var nextPage = params == undefined ? -1 : params.nextPage;
 
@@ -169,7 +172,8 @@ server.get('/news', cors(corsOptionsDelegate), async (request, response) => {
     });
 });
 
-server.get('/tecnology', cors(corsOptionsDelegate), async (request, response) => {
+// server.get('/tecnology', cors(corsOptionsDelegate), async (request, response) => {
+server.get('/tecnology', async (request, response) => {
     var params = request.query;
     var nextPage = params == undefined ? -1 : params.nextPage;
 
@@ -188,7 +192,8 @@ server.get('/tecnology', cors(corsOptionsDelegate), async (request, response) =>
 
 });
 
-server.get('/entertainment', cors(corsOptionsDelegate), async (request, response) => {
+// server.get('/entertainment', cors(corsOptionsDelegate), async (request, response) => {
+server.get('/entertainment', async (request, response) => {
     var params = request.query;
     var nextPage = params == undefined ? -1 : params.nextPage;
 
@@ -207,7 +212,8 @@ server.get('/entertainment', cors(corsOptionsDelegate), async (request, response
 
 });
 
-server.get('/pagedetail', cors(corsOptionsDelegate), async (request, response) => {
+// server.get('/pagedetail', cors(corsOptionsDelegate), async (request, response) => {
+server.get('/pagedetail', async (request, response) => {
     var params = request.query;
     storage.findPageDetail(params.id, params.page, function (results) {
         console.log(results);
