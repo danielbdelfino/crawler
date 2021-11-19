@@ -14,7 +14,7 @@ const server = express();
 // server.use(cors());
 
 const allowedOrigins = ['http://localhost:8000', 'http://127.0.0.1:8000', 'http://localhost', 'http://127.0.0.1',
-    'www.infoaqui.net.br'];
+    'infoaqui.net.br'];
 // app.use(cors({
 //     origin: function (origin, callback) {
 //         console.log(origin);
@@ -43,7 +43,7 @@ var corsOptionsDelegate = function (req, callback) {
     var allow = false;
 
     var headOrigin = req.header('Origin') == undefined ? '' : req.header('Origin');
-
+    console.log(headOrigin);
     allowedOrigins.forEach(orig => {
         if (headOrigin.indexOf(orig) !== -1 && !allow) {
             allow = true;
