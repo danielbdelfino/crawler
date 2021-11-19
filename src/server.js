@@ -13,6 +13,12 @@ const server = express();
 //server.use(cors({origin:true,credentials: true}));
 // server.use(cors());
 
+const headersResponse = {
+    'Access-Control-Allow-Origin': '*',
+    'Access-Control-Allow-Methods': 'GET',
+    'Access-Control-Allow-Headers': 'Content-Type'
+  };
+
 const allowedOrigins = ['http://localhost:8000', 'http://127.0.0.1:8000', 'http://localhost', 'http://127.0.0.1',
     'infoaqui.net.br'];
 // app.use(cors({
@@ -132,6 +138,7 @@ server.get('/games', cors(corsOptionsDelegate), async (request, response) => {
 
     storage.findContent(types.games, nextPage, function (results) {
         console.log(results);
+        response.set(headersResponse);
         response.send({
             results
             //request: "Pagina MEUPS"
@@ -150,6 +157,7 @@ server.get('/news', cors(corsOptionsDelegate), async (request, response) => {
 
     storage.findContent(types.news, nextPage, function (results) {
         console.log(results);
+        response.set(headersResponse);
         response.send({
             results
             //request: "Pagina MEUPS"
@@ -167,6 +175,7 @@ server.get('/tecnology', cors(corsOptionsDelegate), async (request, response) =>
 
     storage.findContent(types.tecnology, nextPage, function (results) {
         console.log(results);
+        response.set(headersResponse);
         response.send({
             results
             //request: "Pagina MEUPS"
@@ -185,6 +194,7 @@ server.get('/entertainment', cors(corsOptionsDelegate), async (request, response
 
     storage.findContent(types.entertainment, nextPage, function (results) {
         console.log(results);
+        response.set(headersResponse);
         response.send({
             results
             //request: "Pagina MEUPS"
@@ -201,6 +211,7 @@ server.get('/pagedetail', cors(corsOptionsDelegate), async (request, response) =
     var params = request.query;
     storage.findPageDetail(params.id, params.page, function (results) {
         console.log(results);
+        response.set(headersResponse);
         response.send({
             results
         });
