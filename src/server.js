@@ -140,7 +140,7 @@ server.get('/games', async (request, response) => {
 
     storage.findContent(types.games, nextPage, function (results) {
         console.log(results);
-        response.set(headersResponse);
+        // response.set(headersResponse);
         response.send({
             results
             //request: "Pagina MEUPS"
@@ -160,7 +160,7 @@ server.get('/news', async (request, response) => {
 
     storage.findContent(types.news, nextPage, function (results) {
         console.log(results);
-        response.set(headersResponse);
+        // response.set(headersResponse);
         response.send({
             results
             //request: "Pagina MEUPS"
@@ -179,7 +179,7 @@ server.get('/tecnology', async (request, response) => {
 
     storage.findContent(types.tecnology, nextPage, function (results) {
         console.log(results);
-        response.set(headersResponse);
+        // response.set(headersResponse);
         response.send({
             results
             //request: "Pagina MEUPS"
@@ -199,7 +199,7 @@ server.get('/entertainment', async (request, response) => {
 
     storage.findContent(types.entertainment, nextPage, function (results) {
         console.log(results);
-        response.set(headersResponse);
+        // response.set(headersResponse);
         response.send({
             results
             //request: "Pagina MEUPS"
@@ -217,7 +217,7 @@ server.get('/pagedetail', async (request, response) => {
     var params = request.query;
     storage.findPageDetail(params.id, params.page, function (results) {
         console.log(results);
-        response.set(headersResponse);
+        // response.set(headersResponse);
         response.send({
             results
         });
