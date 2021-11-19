@@ -5,7 +5,8 @@ const storage = require('../storage/storage');
 
 const rule = new schedule.RecurrenceRule();
 //rule.second = 15;
-rule.minute = 20;
+//rule.minute = 20;
+rule.hour = 3;
 
 schedule.scheduleJob(rule, function () {
   console.log('*** EXECUTING SCHEDULE ***');

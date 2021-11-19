@@ -4,8 +4,8 @@ require('dotenv/config');
 const pool = mysql.createPool({
     connectionLimit : 20,
     host: process.env.DB_URL,
-    user: 'admin',
-    password: 'admin',
+    user: process.env.DB_USR,
+    password: process.env.DB_PASSWD,
     database: 'contentmedia'
     // here you can set connection limits and so on
 });

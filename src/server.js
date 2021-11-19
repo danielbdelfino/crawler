@@ -10,11 +10,11 @@ const cors = require('cors');
 
 const server = express();
 
-server.use(cors({origin:true,credentials: true}));
-//server.use(cors());
+//server.use(cors({origin:true,credentials: true}));
+// server.use(cors());
 
-// const allowedOrigins = ['localhost',
-//     'www.example2.com'];
+const allowedOrigins = ['http://localhost:8000', 'http://127.0.0.1:8000', 'http://localhost', 'http://127.0.0.1',
+    'www.infoaqui.net.br'];
 // app.use(cors({
 //     origin: function (origin, callback) {
 //         console.log(origin);
@@ -28,7 +28,34 @@ server.use(cors({origin:true,credentials: true}));
 
 // }));
 
-server.get('/', async (request, response) => {
+// var corsOptionsDelegate = function (req, callback) {
+//     var corsOptions;
+//     if (allowedOrigins.indexOf(req.header('Origin')) !== -1) {
+//       corsOptions = { origin: true } // reflect (enable) the requested origin in the CORS response
+//     } else {
+//       corsOptions = { origin: false } // disable CORS for this request
+//     }
+//     callback(null, corsOptions) // callback expects two parameters: error and options
+//   }
+
+var corsOptionsDelegate = function (req, callback) {
+    var corsOptions;
+    var allow = false;
+
+    var headOrigin = req.header('Origin') == undefined ? '' : req.header('Origin');
+
+    allowedOrigins.forEach(orig => {
+        if (headOrigin.indexOf(orig) !== -1 && !allow) {
+            allow = true;
+        }
+    });
+
+    corsOptions = { origin: allow } // reflect (enable or disable) the requested origin in the CORS response
+
+    callback(null, corsOptions) // callback expects two parameters: error and options
+};
+
+server.get('/', cors(corsOptionsDelegate), async (request, response) => {
     // const browser = await puppeteer.launch();
     // const page = await browser.newPage();
     //await page.goto('https://www.alura.com.br/formacao-front-end');
@@ -99,7 +126,7 @@ server.get('/', async (request, response) => {
     });
 });
 
-server.get('/games', async (request, response) => {
+server.get('/games', cors(corsOptionsDelegate), async (request, response) => {
     var params = request.query;
     var nextPage = params == undefined ? -1 : params.nextPage;
 
@@ -117,7 +144,60 @@ server.get('/games', async (request, response) => {
 
 });
 
-server.get('/pagedetail', async (request, response) => {
+server.get('/news', cors(corsOptionsDelegate), async (request, response) => {
+    var params = request.query;
+    var nextPage = params == undefined ? -1 : params.nextPage;
+
+    storage.findContent(types.news, nextPage, function (results) {
+        console.log(results);
+        response.send({
+            results
+            //request: "Pagina MEUPS"
+            //image: pageContent.image,
+            //title: pageContent.title,
+            //link: pageContent.link
+            // subtitle: pageContent.subtitle
+        });
+    });
+});
+
+server.get('/tecnology', cors(corsOptionsDelegate), async (request, response) => {
+    var params = request.query;
+    var nextPage = params == undefined ? -1 : params.nextPage;
+
+    storage.findContent(types.tecnology, nextPage, function (results) {
+        console.log(results);
+        response.send({
+            results
+            //request: "Pagina MEUPS"
+            //image: pageContent.image,
+            //title: pageContent.title,
+            //link: pageContent.link
+            // subtitle: pageContent.subtitle
+        });
+    });
+
+});
+
+server.get('/entertainment', cors(corsOptionsDelegate), async (request, response) => {
+    var params = request.query;
+    var nextPage = params == undefined ? -1 : params.nextPage;
+
+    storage.findContent(types.entertainment, nextPage, function (results) {
+        console.log(results);
+        response.send({
+            results
+            //request: "Pagina MEUPS"
+            //image: pageContent.image,
+            //title: pageContent.title,
+            //link: pageContent.link
+            // subtitle: pageContent.subtitle
+        });
+    });
+
+});
+
+server.get('/pagedetail', cors(corsOptionsDelegate), async (request, response) => {
     var params = request.query;
     storage.findPageDetail(params.id, params.page, function (results) {
         console.log(results);

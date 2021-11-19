@@ -89,7 +89,7 @@ const insertContent = function (contentsInsert) {
   if (contentsInsert) {
     poolDB.getConnection(function (error, connection) {
       if (error) {
-        console.log(error);
+        console.log(error + ' - ' + connection);
         return;
       }
   
