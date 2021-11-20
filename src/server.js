@@ -62,7 +62,7 @@ var corsOptionsDelegate = function (req, callback) {
 };
 
 // server.get('/', cors(corsOptionsDelegate), async (request, response) => {
-server.get('/', async (request, response) => {
+server.get('/api', async (request, response) => {
     // const browser = await puppeteer.launch();
     // const page = await browser.newPage();
     //await page.goto('https://www.alura.com.br/formacao-front-end');
@@ -125,7 +125,7 @@ server.get('/', async (request, response) => {
     //console.log(pageContent);
 
     response.send({
-        request: "Pagina MEUPS"
+        request: "API infoaqui"
         //image: pageContent.image,
         //title: pageContent.title,
         //link: pageContent.link
@@ -134,7 +134,7 @@ server.get('/', async (request, response) => {
 });
 
 //server.get('/games', cors(corsOptionsDelegate), async (request, response) => {
-server.get('/games', async (request, response) => {
+server.get('/api/v1/games', async (request, response) => {
     var params = request.query;
     var nextPage = params == undefined ? -1 : params.nextPage;
 
@@ -154,7 +154,7 @@ server.get('/games', async (request, response) => {
 });
 
 // server.get('/news', cors(corsOptionsDelegate), async (request, response) => {
-server.get('/news', async (request, response) => {
+server.get('/api/v1/news', async (request, response) => {
     var params = request.query;
     var nextPage = params == undefined ? -1 : params.nextPage;
 
@@ -173,7 +173,7 @@ server.get('/news', async (request, response) => {
 });
 
 // server.get('/tecnology', cors(corsOptionsDelegate), async (request, response) => {
-server.get('/tecnology', async (request, response) => {
+server.get('/api/v1/tecnology', async (request, response) => {
     var params = request.query;
     var nextPage = params == undefined ? -1 : params.nextPage;
 
@@ -193,7 +193,7 @@ server.get('/tecnology', async (request, response) => {
 });
 
 // server.get('/entertainment', cors(corsOptionsDelegate), async (request, response) => {
-server.get('/entertainment', async (request, response) => {
+server.get('/api/v1/entertainment', async (request, response) => {
     var params = request.query;
     var nextPage = params == undefined ? -1 : params.nextPage;
 
@@ -213,7 +213,7 @@ server.get('/entertainment', async (request, response) => {
 });
 
 // server.get('/pagedetail', cors(corsOptionsDelegate), async (request, response) => {
-server.get('/pagedetail', async (request, response) => {
+server.get('/api/v1/pagedetail', async (request, response) => {
     var params = request.query;
     storage.findPageDetail(params.id, params.page, function (results) {
         console.log(results);
