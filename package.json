@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "pm2-runtime ./src/server.js --name crawler --watch --max-memory-restart 200M ",
+    "start": "pm2-runtime ./src/server.js --name crawler --watch",
     "stop": "pm2 stop ./src/server.js",
     "test": "echo \"Error: no test specified\" && exit 1",
     "debug": "nodemon --inspect ./src/server.js"
