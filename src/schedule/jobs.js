@@ -8,8 +8,9 @@ const rule = new schedule.RecurrenceRule();
 //rule.minute = 20;
 rule.hour = 3;
 
-schedule.scheduleJob(rule, function () {
-  console.log('*** EXECUTING SCHEDULE ***');
+// schedule.scheduleJob(rule, function () {
+schedule.scheduleJob('0 0/6 * * *', function () {
+  console.log('*** EXECUTING SCHEDULE *** ' + new Date());
   // storage.findContent(types.games, function(results) {
   //   console.log(results);
   // });
