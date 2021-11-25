@@ -1,4 +1,4 @@
-FROM node:12.22.1 as build-step
+FROM node:12.22.1-slim as build-step
 WORKDIR /usr/src/app
 #EXPOSE 8000 9000
 
