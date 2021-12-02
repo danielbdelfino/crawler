@@ -7,14 +7,20 @@ const request = async function (url) {
     const browser = await puppeteer.launch({
         args: ['--no-sandbox',  '--disable-dev-shm-usage'],
       });
+    
+    const pageContent;
 
-    const page = await browser.newPage();
-    await page.goto(url);
+    try {
+        const page = await browser.newPage();
+        await page.goto(url);
 
-    const pageContent = await page.evaluate(parser.parsePageContent, { target: url, targets: constants.targets, types: constants.types });
-
-    await browser.close();
-
+        pageContent = await page.evaluate(parser.parsePageContent, { target: url, targets: constants.targets, types: constants.types });
+    } catch (ex) {
+        console.error("inner", ex.message);
+    } finally {
+        await browser.close();
+    }
+    
     return pageContent;
 }
 
