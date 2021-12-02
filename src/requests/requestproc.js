@@ -8,7 +8,7 @@ const request = async function (url) {
         args: ['--no-sandbox',  '--disable-dev-shm-usage'],
       });
     
-    const pageContent;
+    var pageContent;
 
     try {
         const page = await browser.newPage();
