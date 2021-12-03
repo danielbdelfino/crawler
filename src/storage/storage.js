@@ -10,7 +10,7 @@ const findContent = function (type, nextPage, callback) {
 
     try {
       var query = 'SELECT * FROM Content c WHERE c.type = ? ORDER BY c.dhinsert DESC ';
-      query +=  nextPage > -1 ? ' LIMIT ' + nextPage + ', 12 ' : ' LIMIT 12 '; 
+      query +=  nextPage > -1 ? ' LIMIT ' + nextPage + ', 12 ' : ' LIMIT 15 '; 
 
       connection.query(query, [type], function (err, results, fields) {
         if (err) throw err;
